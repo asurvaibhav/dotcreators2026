@@ -1,0 +1,179 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-aura-1: var(--aura-1);
+  --color-aura-2: var(--aura-2);
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 1rem;
+  --background: oklch(0.98 0.008 285);
+  --foreground: oklch(0.2 0.015 285);
+  --card: oklch(0.99 0.005 285 / 0.8);
+  --card-foreground: oklch(0.2 0.015 285);
+  --popover: oklch(0.99 0.005 285);
+  --popover-foreground: oklch(0.2 0.015 285);
+  --primary: oklch(0.2 0.015 285);
+  --primary-foreground: oklch(0.98 0.005 285);
+  --secondary: oklch(0.92 0.01 285);
+  --secondary-foreground: oklch(0.2 0.015 285);
+  --muted: oklch(0.95 0.01 285);
+  --muted-foreground: oklch(0.48 0.015 285);
+  --accent: oklch(0.65 0.22 285);
+  --accent-foreground: oklch(0.98 0.005 285);
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(0.98 0.005 285);
+  --border: oklch(0.2 0.015 285 / 0.08);
+  --input: oklch(0.2 0.015 285 / 0.04);
+  --ring: oklch(0.65 0.22 285 / 0.3);
+  --aura-1: oklch(0.82 0.08 285 / 0.3);
+  --aura-2: oklch(0.85 0.06 240 / 0.25);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: oklch(0.65 0.22 285 / 0.4);
+    color: white;
+  }
+}
+.container {
+  max-width: 1280px; /* Or any other pixel value */
+  margin-left: auto;
+  margin-right: auto;
+}
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .animate-blink {
+    animation: blink 1.5s ease-in-out infinite;
+  }
+  .glass {
+    background: linear-gradient(
+      135deg,
+      oklch(0.99 0.005 285 / 0.92) 0%,
+      oklch(0.98 0.005 285 / 0.85) 100%
+    );
+    backdrop-filter: blur(30px) saturate(160%);
+    border: 1.5px solid oklch(0.65 0.22 285 / 0.25);
+    box-shadow:
+      0 30px 60px -15px oklch(0.2 0.015 285 / 0.15),
+      inset 0 1px 0 0 oklch(1 0 0 / 0.9);
+  }
+  .grain {
+    background-image: radial-gradient(oklch(1 0 0 / 0.04) 1px, transparent 1px);
+    background-size: 3px 3px;
+  }
+  .z-9999 {
+    z-index: 9999;
+  }
+  @keyframes blink {
+    0%,
+    40%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+
+  /* Liquid background - slow, ambient, pointer-events none */
+  .liquid-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(
+        30% 30% at 10% 20%,
+        var(--liquid-accent, rgba(100, 140, 255, 0.12)),
+        transparent 40%
+      ),
+      radial-gradient(
+        28% 28% at 80% 80%,
+        var(--liquid-aura, rgba(90, 200, 200, 0.12)),
+        transparent 40%
+      ),
+      linear-gradient(120deg, rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0.01));
+    background-size:
+      120% 120%,
+      140% 140%,
+      200% 200%;
+    background-position:
+      0% 0%,
+      100% 100%,
+      50% 50%;
+    filter: blur(28px) saturate(120%);
+    mix-blend-mode: screen;
+    transform: translateZ(0);
+    will-change: background-position;
+    animation: liquid-move 40s linear infinite;
+    opacity: 0.95;
+  }
+
+  @keyframes liquid-move {
+    0% {
+      background-position:
+        0% 10%,
+        100% 90%,
+        50% 50%;
+    }
+    50% {
+      background-position:
+        100% 50%,
+        0% 50%,
+        20% 70%;
+    }
+    100% {
+      background-position:
+        0% 10%,
+        100% 90%,
+        50% 50%;
+    }
+  }
+}
